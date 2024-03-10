@@ -10,5 +10,5 @@ export interface Product {
     count: number
   }
   quantity: number,
-  subtotal: number,
+  subTotal: number,
 }

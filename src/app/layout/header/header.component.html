@@ -5,7 +5,7 @@
       <a routerLink="/products" class="mr-6 font-semibold">Products</a>
       <div class="relative" (mouseenter)="showCart.set(true)" (mouseleave)="showCart.set(false)">
         <a routerLink="/checkout">
-          <svg fill="none" height="25" viewBox="0 0 15 15" width="25" xmlns="http://www.w3.org/2000/svg">
+          <svg fill="none" height="30" viewBox="0 0 15 15" width="30" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M0.978822 0.356323L0.0209961 0.643671L3.12789 11H14.9999V4.5C14.9999 3.11929 13.8806 2 12.4999 2H1.47192L0.978822 0.356323Z"
               fill="black" />
@@ -17,24 +17,24 @@
               fill="black" fill-rule="evenodd" />
           </svg>
           <span
-            class="absolute right-0 px-1 text-lg font-bold text-white -top-1"
+            class="absolute right-0 px-1 text-base font-bold text-white -top-0"
           >
-            <!-- {{cartStore.productsCount()}} -->
+            {{cartStore.productsCount()}}
           </span>
         </a>
         @if (showCart()) {
         <div [ngClass]="{'show-cart-animation': showCart()}"
           class="absolute right-0 z-30 w-48 p-2 mt-2 text-white rounded-sm bg-slate-400">
-          <!-- @for (product of cartStore.products(); track $index) {
+          @for (product of cartStore.products(); track $index) {
           <div class="flex items-center justify-between">
-            <span>{{product.qty}} {{product.title | slice: 0:10}} {{product.subTotal || product.price |
+            <span>{{product.quantity}} {{product.title | slice: 0:10}} {{product.subTotal || product.price |
               currency}}</span>
           </div>
-          } -->
+          }
           <hr class="my-4 border-gray-500 border-t-1" />
           <div class="flex justify-between py-3 font-light">
             Total:
-            <!-- <span class="not-italic font-bold">{{cartStore.totalAmount() | currency}}</span> -->
+            <span class="not-italic font-bold">{{cartStore.totalAmount() | currency}}</span>
           </div>
         </div>
         }

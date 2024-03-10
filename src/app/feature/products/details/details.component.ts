@@ -3,6 +3,7 @@ import { Component, OnInit, Signal, inject, input } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ProductsService } from '@api/services/products.service';
 import { Product } from '@shared/interfaces/product';
+import { CartStore } from '@shared/store/shopping-cart.store';
 
 @Component({
   selector: 'app-details',
@@ -18,6 +19,7 @@ export class DetailsComponent implements OnInit{
   // @Input({alias: 'id'}) productIdOld!: number;
   productId = input<number>(0, {alias: 'id'});
   product!: Signal<Product | undefined>;
+  cartStore = inject(CartStore);
 
   private readonly productService = inject(ProductsService);
   private readonly _sanitizer = inject(DomSanitizer);
@@ -27,7 +29,6 @@ export class DetailsComponent implements OnInit{
   }
 
   generateSvg = (index: number): SafeHtml => {
-    console.log('run')
     let SVGContent = null;
     const rate = this.product()?.rating.rate as number;
 
@@ -58,5 +59,7 @@ export class DetailsComponent implements OnInit{
     return this._sanitizer.bypassSecurityTrustHtml(SVGContent);
   }
 
-  onAddToCart = () => {}
+  onAddToCart = ():void => {
+    this.cartStore.addToCart(this.product() as Product);
+  }
 }
