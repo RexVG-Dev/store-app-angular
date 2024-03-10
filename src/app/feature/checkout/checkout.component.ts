@@ -24,6 +24,6 @@ export class CheckoutComponent {
   }
 
   onProceedToPay = () => {
-    this._checkoutService.onProceedToPay();
+    this._checkoutService.onProceedToPay(this.cartStore.products());
   }
 }

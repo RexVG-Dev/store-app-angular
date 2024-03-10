@@ -40,3 +40,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Node_modules for stripe-server
+server-stripe/node_modules/
