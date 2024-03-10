@@ -1,5 +1,7 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, Signal, inject, input } from '@angular/core';
+import { ProductsService } from '@api/services/products.service';
+import { Product } from '@shared/interfaces/product';
 
 @Component({
   selector: 'app-details',
@@ -8,21 +10,18 @@ import { Component } from '@angular/core';
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit{
   starsArray: number[] = new Array(5).fill(0);
+  
+  // The next line it was replaced by the next bellow with signal
+  // @Input({alias: 'id'}) productIdOld!: number;
+  productId = input<number>(0, {alias: 'id'});
+  product!: Signal<Product | undefined>;
 
-  product = () => {
-    return {
-      id: 1,
-      image: '',
-      title: '',
-      category: '',
-      description: '',
-      price: 2,
-      rating: {
-        count: 1
-      }
-    }
+  private readonly productService = inject(ProductsService);
+
+  ngOnInit(): void {
+    this.product = this.productService.getProductById(this.productId());
   }
 
   generateSVG = (index: number) => {}

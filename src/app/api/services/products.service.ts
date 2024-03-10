@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { EnvironmentInjector, Injectable, inject, runInInjectionContext, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { environment } from '@envs/environment.development';
 import { Product } from '@shared/interfaces/product';
 import { Observable, tap } from 'rxjs';
@@ -10,6 +11,7 @@ import { Observable, tap } from 'rxjs';
 export class ProductsService {
 
   products = signal<any>([]);
+  private readonly _injector = inject(EnvironmentInjector);
 
   constructor(
     private http: HttpClient
@@ -26,10 +28,18 @@ export class ProductsService {
   }
 
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(
-      `${environment.apiUrlBase}products/${id}`
-    )
+  getProductById(id: number) {
+    /**
+     * to handle the object as a signal it's necessary to use the
+     * runInInjectionContext()
+     * and create the injector 
+     * private readonly _injector = inject(EnvironmentInjector);
+     */
+    return runInInjectionContext(this._injector, () => 
+      toSignal<Product>(this.http.get<Product>(
+        `${environment.apiUrlBase}products/${id}`
+      ))
+    );
   }
 
 }
