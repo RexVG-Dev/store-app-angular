@@ -22,7 +22,7 @@
             {{cartStore.productsCount()}}
           </span>
         </a>
-        @if (showCart()) {
+        @if (showCart() && cartStore.productsCount()) {
         <div [ngClass]="{'show-cart-animation': showCart()}"
           class="absolute right-0 z-30 w-48 p-2 mt-2 text-white rounded-sm bg-slate-400">
           @for (product of cartStore.products(); track $index) {
